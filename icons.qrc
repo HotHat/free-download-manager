@@ -1,0 +1,23 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/snail-svgrepo-com.svg</file>
+    <file>icons/address-book.png</file>
+    <file>icons/delete.png</file>
+    <file>icons/icons8-avg-48.png</file>
+    <file>icons/icons8-cute-monster-48.png</file>
+    <file>icons/menu-fill-svgrepo-com.svg</file>
+    <file>icons/menu-sharp-svgrepo-com.svg</file>
+    <file>icons/pause.png</file>
+    <file>icons/phonebook.png</file>
+    <file>icons/play.png</file>
+    <file>icons/play1.png</file>
+    <file>icons/plus2.png</file>
+    <file>icons/plus.png</file>
+    <file>icons/search-svgrepo-com.svg</file>
+    <file>icons/stop-button.png</file>
+    <file>icons/trash.png</file>
+    <file>icons/vlc-svgrepo-com.svg</file>
+    <file>icons/icons8-avg-48.png</file>
+    <file>icons/icons8-cute-monster-48.png</file>
+  </qresource>
+</RCC>
