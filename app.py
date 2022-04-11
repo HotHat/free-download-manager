@@ -4,7 +4,12 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (
     QMenu,
 )
-from PyQt5.QtCore import QPoint
+from PyQt5.QtCore import (
+    QPoint,
+    QRect,
+    QPropertyAnimation,
+    QEasingCurve,
+)
 
 from gui import Ui_MainWindow
 
@@ -14,6 +19,8 @@ class AppWindow(QtWidgets.QMainWindow):
         super(AppWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.is_search_show = True
+        self.le_search_width = None
         print("--connect slot--")
         # self.ui.btn_add.clicked.connect(self.on_btn_add_clicked)
         # self.ui.btn_start.clicked.connect(self.on_btn_start_clicked)
@@ -36,7 +43,27 @@ class AppWindow(QtWidgets.QMainWindow):
         print("btn_select_dir clicked")
 
     def on_btn_search_pressed(self):
+        if self.le_search_width is None:
+            self.le_search_width = self.ui.le_search.width()
         print("btn_search clicked")
+        if self.is_search_show:
+            geometry = self.ui.le_search.geometry()
+            self.anim = QPropertyAnimation(self.ui.le_search, b"geometry")
+            self.anim.setEasingCurve(QEasingCurve.InOutCubic)
+            self.anim.setDuration(1000)
+            self.anim.setStartValue(geometry)
+            self.anim.setEndValue(QRect(geometry.x() + self.le_search_width, geometry.y(), 0, geometry.height()))
+            self.anim.start()
+        else:
+            geometry = self.ui.le_search.geometry()
+            self.anim = QPropertyAnimation(self.ui.le_search, b"geometry")
+            self.anim.setEasingCurve(QEasingCurve.InOutCubic)
+            self.anim.setDuration(1000)
+            self.anim.setStartValue(geometry)
+            self.anim.setEndValue(QRect(geometry.x() - self.le_search_width, geometry.y(), self.le_search_width, geometry.height()))
+            self.anim.start()
+        self.is_search_show = not self.is_search_show
+
 
     def on_btn_menu_pressed(self,):
         print("btn_menu clicked")
