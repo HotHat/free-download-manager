@@ -1,8 +1,9 @@
 import sys
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import (
     QMenu,
+    QPushButton
 )
 from PyQt5.QtCore import (
     QPoint,
@@ -19,6 +20,10 @@ class AppWindow(QtWidgets.QMainWindow):
         super(AppWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.frame_6.setGeometry(self.geometry())
+        # self.ui.c.setGeometry(self.geometry())
+        self.setStyleSheet("{background-color: #ff0000}")
+        # self.ui.label.setGeometry(self.ui.cmb_speech.geometry())
         self.is_search_show = True
         self.le_search_width = None
         print("--connect slot--")
@@ -41,6 +46,27 @@ class AppWindow(QtWidgets.QMainWindow):
 
     def on_btn_select_dir_pressed(self):
         print("btn_select_dir clicked")
+        print(self.ui.centralwidget.geometry())
+        self.ui.label.setGeometry(self.ui.cmb_speech.geometry())
+        # self.ui.label.po
+        # self.ui.label.raise_()
+        print(self.ui.label.geometry())
+        # self.ui.tip.move(QPoint(0, self.ui.centralwidget.height() - 200))
+        # self.tip = QPushButton(self.ui.centralwidget)
+        # self.tip.setText("Push Button")
+        # self.tip.setStyleSheet("background-color: #ff0000")
+        # self.tip.raise_()
+        # self.tip.setGeometry(QRect(0, self.ui.centralwidget.height() - 100, 100, 100))
+
+    def resizeEvent(self, a0: QtGui.QResizeEvent) -> None:
+        # print(self.ui.label.geometry())
+        print(self.geometry())
+        print('cmb search geometry: ', self.ui.cmb_speech.geometry())
+        self.ui.frame_6.setGeometry(0, 0, self.geometry().width(), self.geometry().height())
+        pos = self.ui.cmb_speech.mapTo(self, QPoint(0,0))
+        print('pos: ', pos)
+        self.ui.label.setGeometry(QRect(pos.x(), pos.y(), self.ui.cmb_speech.width(), self.ui.cmb_speech.height()))
+
 
     def on_btn_search_pressed(self):
         if self.le_search_width is None:
