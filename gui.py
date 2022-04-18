@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from speed_pop_frame import SpeedPopFrame
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -19,7 +20,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame_6 = QtWidgets.QFrame(self.centralwidget)
-        self.frame_6.setGeometry(QtCore.QRect(9, 9, 779, 365))
+        # self.frame_6.setGeometry(QtCore.QRect(9, 9, 779, 365))
         self.frame_6.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_6.setObjectName("frame_6")
@@ -193,6 +194,8 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 480, 192, 16))
         self.label.setObjectName("label")
+        self.speed_pop = SpeedPopFrame(self.centralwidget)
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)

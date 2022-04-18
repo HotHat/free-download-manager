@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import (
     QMenu,
     QPushButton
@@ -13,6 +13,9 @@ from PyQt5.QtCore import (
 )
 
 from gui import Ui_MainWindow
+from speed_pop_frame import SpeedPopFrame
+
+
 
 
 class AppWindow(QtWidgets.QMainWindow):
@@ -51,6 +54,13 @@ class AppWindow(QtWidgets.QMainWindow):
         # self.ui.label.po
         # self.ui.label.raise_()
         print(self.ui.label.geometry())
+        print(self.geometry())
+        print(self.ui.centralwidget.geometry())
+        pos = self.ui.cmb_speech.mapTo(self, QPoint(0, 0))
+        np = QPoint(pos.x(), pos.y() - self.ui.speed_pop.height())
+        self.ui.speed_pop.move(np)
+        # self.speed_pop.setGeometry(self.ui.cmb_speech.geometry())
+
         # self.ui.tip.move(QPoint(0, self.ui.centralwidget.height() - 200))
         # self.tip = QPushButton(self.ui.centralwidget)
         # self.tip.setText("Push Button")
@@ -62,10 +72,13 @@ class AppWindow(QtWidgets.QMainWindow):
         # print(self.ui.label.geometry())
         print(self.geometry())
         print('cmb search geometry: ', self.ui.cmb_speech.geometry())
-        self.ui.frame_6.setGeometry(0, 0, self.geometry().width(), self.geometry().height())
-        pos = self.ui.cmb_speech.mapTo(self, QPoint(0,0))
+        self.ui.frame_6.setGeometry(self.ui.centralwidget.geometry())
+        pos = self.ui.cmb_speech.mapTo(self, QPoint(0, 0))
         print('pos: ', pos)
         self.ui.label.setGeometry(QRect(pos.x(), pos.y(), self.ui.cmb_speech.width(), self.ui.cmb_speech.height()))
+        np = QPoint(pos.x(), pos.y() - self.ui.speed_pop.height())
+        self.ui.speed_pop.move(np)
+
 
 
     def on_btn_search_pressed(self):
