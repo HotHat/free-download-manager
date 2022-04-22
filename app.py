@@ -9,7 +9,7 @@ from PyQt5.QtCore import (
     QPoint,
     QRect,
     QPropertyAnimation,
-    QEasingCurve,
+    QEasingCurve, QEvent,
 )
 
 from gui import Ui_MainWindow
@@ -30,8 +30,10 @@ class AppWindow(QtWidgets.QMainWindow):
         self.is_search_show = True
         self.le_search_width = None
         print("--connect slot--")
-        # self.ui.btn_add.clicked.connect(self.on_btn_add_clicked)
-        # self.ui.btn_start.clicked.connect(self.on_btn_start_clicked)
+        self.is_speed_pop_show = False
+        self.ui.speed_pop.low_speed.clicked.connect(lambda x: print('clicked'))
+        # self.installEventFilter(self)
+
 
     def on_btn_add_pressed(self):
         """qt auto-connect slot match pattern on_pushButton_clicked
@@ -50,15 +52,17 @@ class AppWindow(QtWidgets.QMainWindow):
     def on_btn_select_dir_pressed(self):
         print("btn_select_dir clicked")
         print(self.ui.centralwidget.geometry())
-        self.ui.label.setGeometry(self.ui.cmb_speech.geometry())
+        # self.ui.label.setGeometry(self.ui.cmb_speech.geometry())
         # self.ui.label.po
         # self.ui.label.raise_()
-        print(self.ui.label.geometry())
+        # print(self.ui.label.geometry())
         print(self.geometry())
         print(self.ui.centralwidget.geometry())
         pos = self.ui.cmb_speech.mapTo(self, QPoint(0, 0))
         np = QPoint(pos.x(), pos.y() - self.ui.speed_pop.height())
         self.ui.speed_pop.move(np)
+        self.is_speed_pop_show = True
+        self.ui.speed_pop.show()
         # self.speed_pop.setGeometry(self.ui.cmb_speech.geometry())
 
         # self.ui.tip.move(QPoint(0, self.ui.centralwidget.height() - 200))
@@ -75,9 +79,32 @@ class AppWindow(QtWidgets.QMainWindow):
         self.ui.frame_6.setGeometry(self.ui.centralwidget.geometry())
         pos = self.ui.cmb_speech.mapTo(self, QPoint(0, 0))
         print('pos: ', pos)
-        self.ui.label.setGeometry(QRect(pos.x(), pos.y(), self.ui.cmb_speech.width(), self.ui.cmb_speech.height()))
+        # self.ui.label.setGeometry(QRect(pos.x(), pos.y(), self.ui.cmb_speech.width(), self.ui.cmb_speech.height()))
         np = QPoint(pos.x(), pos.y() - self.ui.speed_pop.height())
         self.ui.speed_pop.move(np)
+
+    def eventFilter(self, obj, event: QEvent) -> bool:
+        if event.type() == QEvent.MouseButtonPress:
+            # print('------------event filter----------')
+            # print(self.geometry())
+            # print(event.pos())
+            # print(obj)
+            # print('button release')
+            if isinstance(obj, QtGui.QWindow):
+                ps = self.ui.speed_pop.mapTo(self, QPoint(0, 0))
+                rec = QRect(ps.x(), ps.y(), self.ui.speed_pop.width(), self.ui.speed_pop.height())
+                # print(rec)
+                # print(event.pos())
+                if self.is_speed_pop_show:
+                    if rec.contains(event.pos()):
+                        return QtWidgets.QMainWindow.eventFilter(self, obj, event)
+                    else:
+                        self.is_speed_pop_show = False
+                        self.ui.speed_pop.hide()
+                        return False
+
+        return QtWidgets.QMainWindow.eventFilter(self, obj, event)
+
 
 
 
@@ -145,6 +172,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     application = AppWindow()
     application.show()
+    app.installEventFilter(application)
     sys.exit(app.exec_())
 
 
